@@ -75,6 +75,8 @@ class list {
 		list(int value);
 		~list(void);
         void push_front(int value);
+        void push_back(int value);
+        void push_by_index(int value, int index);
 
 
         void show(void);
@@ -82,7 +84,7 @@ class list {
 
 
 
-// Creating a list with one element with a given value
+// creating a list with one element with a given value
 list::list(int value) {
 	element *element_list = new element;
     element_list->set_value(value);
@@ -98,7 +100,7 @@ list::~list(void) {
 
 }
 
-// Add an item to the start of the list
+// add an item to the front of the list
 void list::push_front(int value) {
 	element *element_list = new element;
     element_list->set_value(value);
@@ -111,12 +113,43 @@ void list::push_front(int value) {
     this->size = this->size + 1;
 }
 
+// add an item to the back of the list
+void list::push_back(int value) {
+    element *element_list = new element;
+    element_list->set_value(value);
+
+    element_list->set_next_element(element_list);
+    element_list->set_previous_element(this->last_element);
+
+    this->last_element->set_next_element(element_list);
+    this->last_element = element_list;
+
+    this->size = this->size + 1;
+}
+
+// // add an item to a given index list
+// void list::push_by_index(int value, int index) {
+//     element *element_list = new element;
+//     element_list->set_value(value);
+
+//     if( ) {
+
+//     }
+
+// }
+
+
+// displaying the contents of the list
 void list::show(void) {
-    cout << this->first_element->get_value() << endl;
+    element *element_list =  this->first_element;
+    for(int i = 0; i < this->size; i++) {
+        cout << element_list->get_value() << endl;
+        element_list = element_list->get_next_element();
+    }   
 }
 
 
-void push_back();
+
 void push_by_index();
 void pop_front();
 void pop_back();
@@ -137,6 +170,8 @@ int main() {
     list table(1);
 
     table.push_front(2);
+
+    table.push_back(0);
 
     table.show();
 
