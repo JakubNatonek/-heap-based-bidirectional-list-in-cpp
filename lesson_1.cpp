@@ -69,6 +69,7 @@ class list {
 		int size;
         element *first_element;
         element *last_element;
+        element *current_element;
 	public:
 		list(int value);
 		~list(void);
@@ -80,6 +81,12 @@ class list {
         int pop_by_index(int index);
         void show(void);
         void show_reverse();
+        void show_next();
+        void show_previous();
+        void clear();
+
+        void show_current();
+        void list_initialization(int value);
 };
 
 
@@ -94,6 +101,8 @@ list::list(int value) {
     this->first_element = element_list;
     this->last_element = element_list;
 
+    this->current_element = element_list;
+
     this->size = 1;
 }
 
@@ -103,6 +112,11 @@ list::~list(void) {
 
 // add an item to the front of the list
 void list::push_front(int value) {
+    if(this->size == 0) {
+        this->list_initialization(value);
+        return;
+    }
+
 	element *element_list = new element;
     element_list->set_value(value);
 
@@ -111,11 +125,19 @@ void list::push_front(int value) {
 
     this->first_element->set_previous_element(element_list);
     this->first_element = element_list;
+
+    this->current_element = element_list;
+
     this->size = this->size + 1;
 }
 
 // add an item to the back of the list
 void list::push_back(int value) {
+    if(this->size == 0) {
+        this->list_initialization(value);
+        return;
+    }
+
     element *element_list = new element;
     element_list->set_value(value);
 
@@ -125,11 +147,18 @@ void list::push_back(int value) {
     this->last_element->set_next_element(element_list);
     this->last_element = element_list;
 
+    this->current_element = element_list;
+
     this->size = this->size + 1;
 }
 
 // add an item to a given index list
 void list::push_by_index(int value, int index) {
+    if(this->size == 0) {
+        this->list_initialization(value);
+        return;
+    }
+
     if(index <= 0) {
         this->push_front(value);
         return;
@@ -145,13 +174,13 @@ void list::push_by_index(int value, int index) {
 
     element *element_list;
     if(index < (this->size / 2) ) {
-        element_list =  this->first_element;
+        element_list = this->first_element;
         for(int i = 0; i < index; i++) {
             element_list = element_list->get_next_element();
         }
     }
     else {
-        element_list =  this->last_element;
+        element_list = this->last_element;
         for(int i = this->size; i > index + 1; i--) {
             element_list = element_list->get_previous_element();
         }
@@ -164,15 +193,23 @@ void list::push_by_index(int value, int index) {
 
     element_list->set_previous_element(element_list_new);
 
+    this->current_element = element_list_new;
+
     this->size = this->size + 1;
 }
 
 // removing an item from the front of the list
 int list::pop_front() {
+    if(this->size == 0) {
+        return NULL;
+    }
+
     element *element_list = this->first_element;
 
     this->first_element = element_list->get_next_element();
     this->first_element->set_previous_element(this->first_element);
+
+    this->current_element = this->first_element;
 
     this->size = this->size - 1;
 
@@ -181,10 +218,16 @@ int list::pop_front() {
 
 // removing an item from the back of the list
 int list::pop_back() {
+    if(this->size == 0) {
+        return NULL;
+    }
+
     element *element_list = this->last_element;
 
     this->last_element = element_list->get_previous_element();
     this->last_element->set_next_element(this->last_element);
+
+    this->current_element = this->last_element;
 
     this->size = this->size - 1;
 
@@ -193,15 +236,27 @@ int list::pop_back() {
 
 // removing an item from the given index of the list
 int list::pop_by_index(int index) {
+    if(this->size == 0) {
+        return NULL;
+    }
+
+    if(index <= 0) {
+        return this->pop_front();
+    }
+
+    if(index >= this->size) {
+        return this->pop_back();
+    }
+
     element *element_list;
     if(index < (this->size / 2) ) {
-        element_list =  this->first_element;
+        element_list = this->first_element;
         for(int i = 0; i < index; i++) {
             element_list = element_list->get_next_element();
         }
     }
     else {
-        element_list =  this->last_element;
+        element_list = this->last_element;
         for(int i = this->size; i > index + 1; i--) {
             element_list = element_list->get_previous_element();
         }
@@ -210,6 +265,9 @@ int list::pop_by_index(int index) {
     element_list->get_previous_element()->set_next_element(element_list->get_next_element());
     element_list->get_next_element()->set_previous_element(element_list->get_previous_element());
 
+    this->current_element = element_list->get_next_element();
+
+
     this->size = this->size - 1;
 
     return element_list->get_value();
@@ -217,7 +275,11 @@ int list::pop_by_index(int index) {
 
 // displaying the contents of the list
 void list::show(void) {
-    element *element_list =  this->first_element;
+    if(this->size == 0) {
+        return;
+    }
+
+    element *element_list = this->first_element;
     for(int i = 0; i < this->size; i++) {
         cout << element_list->get_value() << endl;
         element_list = element_list->get_next_element();
@@ -226,21 +288,77 @@ void list::show(void) {
 
 // displaying the contents of the list in reverse order
 void list::show_reverse() {
-    element *element_list =  this->last_element;
+    if(this->size == 0) {
+        return;
+    }
+
+    element *element_list = this->last_element;
     for(int i = this->size; i > 0; i--) {
         cout << element_list->get_value() << endl;
         element_list = element_list->get_previous_element();
     } 
 }
 
+// show next element
+void list::show_next() {
+    if(this->size == 0) {
+        return;
+    }
+    cout << this->current_element->get_next_element()->get_value() << endl;
 
+    this->current_element = this->current_element->get_next_element();
+}
 
+// show previous element
+void list::show_previous() {
+    if(this->size == 0) {
+        return;
+    }
 
-void show_next();
-void show_previous();
-void clear();
+    cout << this->current_element->get_previous_element()->get_value() << endl;
 
+    this->current_element = this->current_element->get_previous_element();
+}
 
+// clear the list
+void list::clear() {
+    if(this->size == 0) {
+        return;
+    }
+
+    element *element_list = this->first_element;
+    for(int i = 0; i < this->size; i++) {
+        element *element_list_delete = element_list;
+        element_list = element_list->get_next_element();
+        delete element_list_delete;
+    }
+
+    this->size = 0;
+}
+
+// show current element
+void list::show_current() {
+    if(this->size == 0) {
+        return;
+    }
+
+    cout << this->current_element->get_value() << endl;
+}
+
+// add an item to the list
+void list::list_initialization(int value) {
+    element *element_list = new element;
+    element_list->set_value(value);
+    element_list->set_next_element(element_list);
+    element_list->set_previous_element(element_list);
+
+    this->first_element = element_list;
+    this->last_element = element_list;
+
+    this->current_element = element_list;
+
+    this->size = 1;
+}
 
 
 //------------------------------------------------------------------------
@@ -299,6 +417,24 @@ int main() {
     table.show_reverse();
 
     cout << "---------------" << endl;
+
+    table.show_next();
+
+    cout << "---------------" << endl;
+
+    table.show_previous();
+
+    cout << "---------------" << endl;
+
+    table.clear();
+   
+    table.show();
+
+    cout << "---------------" << endl;
+
+    table.push_by_index(9, 30);
+
+    table.show();
 
   return 0;
 }
