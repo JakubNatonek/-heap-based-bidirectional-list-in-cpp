@@ -29,9 +29,7 @@ element::element(void) {
 };
 
 element::~element(void) {
-    delete previous_element;
-    delete next_element;
-    delete this;
+
 }
 
 // seting value
@@ -77,9 +75,11 @@ class list {
         void push_front(int value);
         void push_back(int value);
         void push_by_index(int value, int index);
-
-
+        int pop_front();
+        int pop_back();
+        int pop_by_index(int index);
         void show(void);
+        void show_reverse();
 };
 
 
@@ -93,6 +93,7 @@ list::list(int value) {
 
     this->first_element = element_list;
     this->last_element = element_list;
+
     this->size = 1;
 }
 
@@ -127,17 +128,92 @@ void list::push_back(int value) {
     this->size = this->size + 1;
 }
 
-// // add an item to a given index list
-// void list::push_by_index(int value, int index) {
-//     element *element_list = new element;
-//     element_list->set_value(value);
+// add an item to a given index list
+void list::push_by_index(int value, int index) {
+    if(index <= 0) {
+        this->push_front(value);
+        return;
+    }
 
-//     if( ) {
+    if(index >= this->size) {
+        this->push_back(value);
+        return;
+    }
 
-//     }
+    element *element_list_new = new element;
+    element_list_new->set_value(value);
 
-// }
+    element *element_list;
+    if(index < (this->size / 2) ) {
+        element_list =  this->first_element;
+        for(int i = 0; i < index; i++) {
+            element_list = element_list->get_next_element();
+        }
+    }
+    else {
+        element_list =  this->last_element;
+        for(int i = this->size; i > index + 1; i--) {
+            element_list = element_list->get_previous_element();
+        }
+    }
 
+    element_list_new->set_next_element(element_list);
+    element_list_new->set_previous_element(element_list->get_previous_element());
+
+    element_list->get_previous_element()->set_next_element(element_list_new);
+
+    element_list->set_previous_element(element_list_new);
+
+    this->size = this->size + 1;
+}
+
+// removing an item from the front of the list
+int list::pop_front() {
+    element *element_list = this->first_element;
+
+    this->first_element = element_list->get_next_element();
+    this->first_element->set_previous_element(this->first_element);
+
+    this->size = this->size - 1;
+
+    return element_list->get_value();
+}
+
+// removing an item from the back of the list
+int list::pop_back() {
+    element *element_list = this->last_element;
+
+    this->last_element = element_list->get_previous_element();
+    this->last_element->set_next_element(this->last_element);
+
+    this->size = this->size - 1;
+
+    return element_list->get_value();
+}
+
+// removing an item from the given index of the list
+int list::pop_by_index(int index) {
+    element *element_list;
+    if(index < (this->size / 2) ) {
+        element_list =  this->first_element;
+        for(int i = 0; i < index; i++) {
+            element_list = element_list->get_next_element();
+        }
+    }
+    else {
+        element_list =  this->last_element;
+        for(int i = this->size; i > index + 1; i--) {
+            element_list = element_list->get_previous_element();
+        }
+    }
+
+    element_list->get_previous_element()->set_next_element(element_list->get_next_element());
+    element_list->get_next_element()->set_previous_element(element_list->get_previous_element());
+
+    this->size = this->size - 1;
+
+    return element_list->get_value();
+}
 
 // displaying the contents of the list
 void list::show(void) {
@@ -148,14 +224,18 @@ void list::show(void) {
     }   
 }
 
+// displaying the contents of the list in reverse order
+void list::show_reverse() {
+    element *element_list =  this->last_element;
+    for(int i = this->size; i > 0; i--) {
+        cout << element_list->get_value() << endl;
+        element_list = element_list->get_previous_element();
+    } 
+}
 
 
-void push_by_index();
-void pop_front();
-void pop_back();
-void pop_by_index();
 
-void show_reverse();
+
 void show_next();
 void show_previous();
 void clear();
@@ -172,8 +252,53 @@ int main() {
     table.push_front(2);
 
     table.push_back(0);
+    table.push_back(2);
+    table.push_back(3);
+    table.push_back(4);
 
     table.show();
+
+    cout << "---------------" << endl;
+
+    table.push_by_index(8, 5);
+
+    table.show();
+
+    cout << "---------------" << endl;
+
+    table.push_by_index(9, 2);
+
+    table.show();
+
+    cout << "---------------" << endl;
+
+    cout << table.pop_front() << endl;
+
+    cout << "---------------" << endl;
+
+    table.show();
+
+    cout << "---------------" << endl;
+
+    cout << table.pop_back() << endl;
+
+    cout << "---------------" << endl;
+
+    table.show();
+
+    cout << "---------------" << endl;
+
+    cout << table.pop_by_index(2) << endl;
+
+    cout << "---------------" << endl;
+
+    table.show();
+
+    cout << "---------------" << endl;
+
+    table.show_reverse();
+
+    cout << "---------------" << endl;
 
   return 0;
 }
