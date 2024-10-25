@@ -107,7 +107,7 @@ list::list(int value) {
 }
 
 list::~list(void) {
-
+    clear();
 }
 
 // add an item to the front of the list
@@ -322,10 +322,6 @@ void list::show_previous() {
 
 // clear the list
 void list::clear() {
-    if(this->size == 0) {
-        return;
-    }
-
     element *element_list = this->first_element;
     for(int i = 0; i < this->size; i++) {
         element *element_list_delete = element_list;
@@ -426,6 +422,7 @@ int main() {
 
     cout << "---------------" << endl;
 
+    table.clear();
     table.clear();
    
     table.show();
