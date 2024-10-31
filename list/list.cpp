@@ -2,7 +2,12 @@
 
 //------------------------------------------------------------------------
 
+
 // creating a list with one element with a given value
+/**
+ * @brief Konstruktor, który inicjalizuję listę z jednym elementem
+ * @param value Wartość do dodania
+ */
 list::list(int value) {
 	element *element_list = new element;
     element_list->set_value(value);
@@ -17,11 +22,19 @@ list::list(int value) {
     this->size = 1;
 }
 
+// freeing memory
+/**
+ * @brief Destruktor do zwalniania pamięci
+ */
 list::~list(void) {
     clear();
 }
 
 // add an item to the front of the list
+/**
+ * @brief Dodaj element na początek listy
+ * @param value Wartość do dodania
+ */
 void list::push_front(int value) {
     if(this->size == 0) {
         this->list_initialization(value);
@@ -43,6 +56,10 @@ void list::push_front(int value) {
 }
 
 // add an item to the back of the list
+/**
+ * @brief Dodaj element na koniec listy
+ * @param value Wartość do dodania
+ */
 void list::push_back(int value) {
     if(this->size == 0) {
         this->list_initialization(value);
@@ -64,6 +81,11 @@ void list::push_back(int value) {
 }
 
 // add an item to a given index list
+/**
+ * @brief Dodaj element pod wskazany indeks
+ * @param index Indeks, pod którym dodać element
+ * @param value Wartość do dodania
+ */
 void list::push_by_index(int value, int index) {
     if(this->size == 0) {
         this->list_initialization(value);
@@ -110,7 +132,11 @@ void list::push_by_index(int value, int index) {
 }
 
 // removing an item from the front of the list
-int list::pop_front(void) {
+/**
+ * @brief Usuń element z początku listy
+ * @return Wartosć usuwanego elementu
+ */
+int list::pop_front() {
     if(this->size == 0) {
         return;
     }
@@ -128,7 +154,11 @@ int list::pop_front(void) {
 }
 
 // removing an item from the back of the list
-int list::pop_back(void) {
+/**
+ * @brief Usuń element z końca listy
+ * @return Wartosć usuwanego elementu
+ */
+int list::pop_back() {
     if(this->size == 0) {
         return;
     }
@@ -146,6 +176,11 @@ int list::pop_back(void) {
 }
 
 // removing an item from the given index of the list
+/**
+ * @brief Usuń element z pod wskazanego indeksu
+ * @param index Indeks, z którego usunąć element
+ * @return Wartosć usuwanego elementu
+ */
 int list::pop_by_index(int index) {
     if(this->size == 0) {
         return;
@@ -185,6 +220,9 @@ int list::pop_by_index(int index) {
 }
 
 // displaying the contents of the list
+/**
+ * @brief Wyświetl całą listę
+ */
 void list::show(void) {
     if(this->size == 0) {
         return;
@@ -198,7 +236,10 @@ void list::show(void) {
 }
 
 // displaying the contents of the list in reverse order
-void list::show_reverse(void) {
+/**
+ * @brief Wyświetl listę w odwrotnej kolejności
+ */
+void list::show_reverse() {
     if(this->size == 0) {
         return;
     }
@@ -211,7 +252,10 @@ void list::show_reverse(void) {
 }
 
 // show next element
-void list::show_next(void) {
+/**
+ * @brief Wyświetl następnego elementu od ostatnio modyfikowanego elementu
+ */
+void list::show_next() {
     if(this->size == 0) {
         return;
     }
@@ -221,7 +265,10 @@ void list::show_next(void) {
 }
 
 // show previous element
-void list::show_previous(void) {
+/**
+ * @brief Wyświetl poprzedniego elementu od ostatnio modyfikowanego elementu
+ */
+void list::show_previous() {
     if(this->size == 0) {
         return;
     }
@@ -232,7 +279,10 @@ void list::show_previous(void) {
 }
 
 // clear the list
-void list::clear(void) {
+/**
+ * @brief Czyść całą listę
+ */
+void list::clear() {
     element *element_list = this->first_element;
     for(int i = 0; i < this->size; i++) {
         element *element_list_delete = element_list;
@@ -244,7 +294,10 @@ void list::clear(void) {
 }
 
 // show current element
-void list::show_current(void) {
+/**
+ * @brief Wyświetl ostatnio modyfikowanego elementu
+ */
+void list::show_current() {
     if(this->size == 0) {
         return;
     }
@@ -253,6 +306,10 @@ void list::show_current(void) {
 }
 
 // add an item to the list
+/**
+ * @brief Inicjalizuja listy z jednym elementem
+ * @param value Wartość do dodania
+ */
 void list::list_initialization(int value) {
     element *element_list = new element;
     element_list->set_value(value);
