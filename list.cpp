@@ -1,95 +1,6 @@
-#include <iostream>
-
-using namespace std;
+#include "list.h"
 
 //------------------------------------------------------------------------
-
-// element of bidirectional list
-class element {
-    private:
-        element *previous_element;
-        element *next_element;
-        int value;
-    public:
-        element(void);
-        ~element(void);
-
-        void set_value(int value);
-        int get_value(void);
-
-        void set_previous_element(element *previous_element);
-        element* get_previous_element(void);
-
-        void set_next_element(element *next_element);
-        element* get_next_element(void);
-};
-
-element::element(void) {
-
-};
-
-element::~element(void) {
-
-}
-
-// seting value
-void element::set_value(int value) {
-    this->value = value;
-}
-
-// geting value
-int element::get_value(void) {
-   return this->value;
-}
-
-// seting previous element
-void element::set_previous_element(element *previous_element) {
-    this->previous_element = previous_element;
-}
-
-// geting previous element
-element* element::get_previous_element(void) {
-   return this->previous_element;
-}
-
-// seting next element
-void element::set_next_element(element *next_element) {
-    this->next_element = next_element;
-}
-
-// geting next element
-element* element::get_next_element(void) {
-   return this->next_element;
-}
-
-
-// bidirectional list
-class list {
-	private:
-		int size;
-        element *first_element;
-        element *last_element;
-        element *current_element;
-	public:
-		list(int value);
-		~list(void);
-        void push_front(int value);
-        void push_back(int value);
-        void push_by_index(int value, int index);
-        int pop_front();
-        int pop_back();
-        int pop_by_index(int index);
-        void show(void);
-        void show_reverse();
-        void show_next();
-        void show_previous();
-        void clear();
-
-        void show_current();
-        void list_initialization(int value);
-};
-
-
 
 // creating a list with one element with a given value
 list::list(int value) {
@@ -201,7 +112,7 @@ void list::push_by_index(int value, int index) {
 // removing an item from the front of the list
 int list::pop_front() {
     if(this->size == 0) {
-        return NULL;
+        return;
     }
 
     element *element_list = this->first_element;
@@ -219,7 +130,7 @@ int list::pop_front() {
 // removing an item from the back of the list
 int list::pop_back() {
     if(this->size == 0) {
-        return NULL;
+        return;
     }
 
     element *element_list = this->last_element;
@@ -237,7 +148,7 @@ int list::pop_back() {
 // removing an item from the given index of the list
 int list::pop_by_index(int index) {
     if(this->size == 0) {
-        return NULL;
+        return;
     }
 
     if(index <= 0) {
@@ -354,84 +265,4 @@ void list::list_initialization(int value) {
     this->current_element = element_list;
 
     this->size = 1;
-}
-
-
-//------------------------------------------------------------------------
-
-int main() {
-    
-    list table(1);
-
-    table.push_front(2);
-
-    table.push_back(0);
-    table.push_back(2);
-    table.push_back(3);
-    table.push_back(4);
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    table.push_by_index(8, 5);
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    table.push_by_index(9, 2);
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    cout << table.pop_front() << endl;
-
-    cout << "---------------" << endl;
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    cout << table.pop_back() << endl;
-
-    cout << "---------------" << endl;
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    cout << table.pop_by_index(2) << endl;
-
-    cout << "---------------" << endl;
-
-    table.show();
-
-    cout << "---------------" << endl;
-
-    table.show_reverse();
-
-    cout << "---------------" << endl;
-
-    table.show_next();
-
-    cout << "---------------" << endl;
-
-    table.show_previous();
-
-    cout << "---------------" << endl;
-
-    table.clear();
-    table.clear();
-   
-    table.show();
-
-    cout << "---------------" << endl;
-
-    table.push_by_index(9, 30);
-
-    table.show();
-
-  return 0;
 }
