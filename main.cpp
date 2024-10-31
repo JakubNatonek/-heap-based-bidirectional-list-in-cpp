@@ -1,6 +1,7 @@
 #include <iostream>
-#include "element.h"
-#include "list.h"
+#include "element/element.h"
+#include "list/list.h"
+
 using namespace std;
 
 //------------------------------------------------------------------------

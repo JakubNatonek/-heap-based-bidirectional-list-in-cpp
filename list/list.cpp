@@ -110,7 +110,7 @@ void list::push_by_index(int value, int index) {
 }
 
 // removing an item from the front of the list
-int list::pop_front() {
+int list::pop_front(void) {
     if(this->size == 0) {
         return;
     }
@@ -128,7 +128,7 @@ int list::pop_front() {
 }
 
 // removing an item from the back of the list
-int list::pop_back() {
+int list::pop_back(void) {
     if(this->size == 0) {
         return;
     }
@@ -198,7 +198,7 @@ void list::show(void) {
 }
 
 // displaying the contents of the list in reverse order
-void list::show_reverse() {
+void list::show_reverse(void) {
     if(this->size == 0) {
         return;
     }
@@ -211,7 +211,7 @@ void list::show_reverse() {
 }
 
 // show next element
-void list::show_next() {
+void list::show_next(void) {
     if(this->size == 0) {
         return;
     }
@@ -221,7 +221,7 @@ void list::show_next() {
 }
 
 // show previous element
-void list::show_previous() {
+void list::show_previous(void) {
     if(this->size == 0) {
         return;
     }
@@ -232,7 +232,7 @@ void list::show_previous() {
 }
 
 // clear the list
-void list::clear() {
+void list::clear(void) {
     element *element_list = this->first_element;
     for(int i = 0; i < this->size; i++) {
         element *element_list_delete = element_list;
@@ -244,7 +244,7 @@ void list::clear() {
 }
 
 // show current element
-void list::show_current() {
+void list::show_current(void) {
     if(this->size == 0) {
         return;
     }
